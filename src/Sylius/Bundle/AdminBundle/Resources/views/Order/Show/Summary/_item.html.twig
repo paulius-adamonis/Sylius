@@ -36,15 +36,4 @@
     <td class="right aligned subtotal">
       {{ money.format(subtotal, order.currencyCode) }}
     </td>
-    <td class="right aligned tax">
-        <div class="tax-excluded">{{ money.format(taxExcluded, order.currencyCode) }}</div>
-        <div class="tax-disabled">
-            <div class="tax-included"> {{ money.format(taxIncluded, order.currencyCode) }}
-            </div>
-            <small>({{ 'sylius.ui.included_in_price'|trans }})</small>
-        </div>
-    </td>
-    <td class="right aligned total">
-        {{ money.format(item.total, order.currencyCode) }}
-    </td>
 </tr>

@@ -7,11 +7,14 @@
 {% set orderShippingPromotions = sylius_aggregate_adjustments(order.getAdjustmentsRecursively(orderShippingPromotionAdjustment)) %}
 
 <tr>
-    <th colspan="7"></th>
+    <th colspan="6"></th>
     <th colspan="1" id="tax-total" class="right aligned">
         <strong>{{ 'sylius.ui.tax_total'|trans }}</strong>:
         {{ money.format(order.taxTotal, order.currencyCode) }}
     </th>
+</tr>
+<tr>
+    <th colspan="6"></th>
     <th colspan="1" id="items-total" class="right aligned">
         <strong>{{ 'sylius.ui.items_total'|trans }}</strong>:
         {{ money.format(order.itemsTotal, order.currencyCode) }}

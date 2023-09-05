@@ -88,7 +88,7 @@ class OrderItem extends BaseOrderItem implements OrderItemInterface
     /**
      * Returns sum of neutral and non neutral tax adjustments on order item and total tax of units.
      */
-    public function getTaxTotal(): int
+    public function getTaxTotal(): float
     {
         $taxTotal = 0;
 
@@ -103,7 +103,7 @@ class OrderItem extends BaseOrderItem implements OrderItemInterface
             $taxTotal += $unit->getTaxTotal();
         }
 
-        return (int) round($taxTotal);
+        return $taxTotal;
     }
 
     /**

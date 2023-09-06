@@ -32,7 +32,7 @@ interface OrderItemInterface extends BaseOrderItemInterface, VersionedInterface
 
     public function setVariantName(?string $variantName): void;
 
-    public function getTaxTotal(): int;
+    public function getTaxTotal(): float;
 
     public function getDiscountedUnitPrice(): float;
 

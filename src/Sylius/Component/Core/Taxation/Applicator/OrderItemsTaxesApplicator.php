@@ -14,7 +14,6 @@ declare(strict_types=1);
 namespace Sylius\Component\Core\Taxation\Applicator;
 
 use Sylius\Component\Addressing\Model\ZoneInterface;
-use Sylius\Component\Core\Distributor\IntegerDistributorInterface;
 use Sylius\Component\Core\Model\AdjustmentInterface;
 use Sylius\Component\Core\Model\OrderInterface;
 use Sylius\Component\Core\Model\OrderItemUnitInterface;
@@ -31,7 +30,6 @@ class OrderItemsTaxesApplicator implements OrderTaxesApplicatorInterface
     public function __construct(
         private CalculatorInterface $calculator,
         private AdjustmentFactoryInterface $adjustmentFactory,
-        private IntegerDistributorInterface $distributor,
         private TaxRateResolverInterface $taxRateResolver,
     ) {
     }

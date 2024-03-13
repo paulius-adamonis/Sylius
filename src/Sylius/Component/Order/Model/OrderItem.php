@@ -16,6 +16,8 @@ namespace Sylius\Component\Order\Model;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 
+use function round;
+
 class OrderItem implements OrderItemInterface
 {
     /** @var mixed */
@@ -27,13 +29,13 @@ class OrderItem implements OrderItemInterface
     /** @var int */
     protected $quantity = 0;
 
-    /** @var int */
-    protected $unitPrice = 0;
+    /** @var float */
+    protected $unitPrice = 0.0;
 
-    protected ?int $originalUnitPrice = 0;
+    protected ?float $originalUnitPrice = 0.0;
 
-    /** @var int */
-    protected $total = 0;
+    /** @var float */
+    protected $total = 0.0;
 
     /** @var bool */
     protected $immutable = false;
@@ -45,8 +47,8 @@ class OrderItem implements OrderItemInterface
      */
     protected $units;
 
-    /** @var int */
-    protected $unitsTotal = 0;
+    /** @var float */
+    protected $unitsTotal = 0.0;
 
     /**
      * @var Collection|AdjustmentInterface[]
@@ -55,8 +57,8 @@ class OrderItem implements OrderItemInterface
      */
     protected $adjustments;
 
-    /** @var int */
-    protected $adjustmentsTotal = 0;
+    /** @var float */
+    protected $adjustmentsTotal = 0.0;
 
     public function __construct()
     {
@@ -103,28 +105,28 @@ class OrderItem implements OrderItemInterface
         }
     }
 
-    public function getUnitPrice(): int
+    public function getUnitPrice(): float
     {
         return $this->unitPrice;
     }
 
-    public function setUnitPrice(int $unitPrice): void
+    public function setUnitPrice(float $unitPrice): void
     {
         $this->unitPrice = $unitPrice;
         $this->recalculateUnitsTotal();
     }
 
-    public function getOriginalUnitPrice(): ?int
+    public function getOriginalUnitPrice(): ?float
     {
         return $this->originalUnitPrice;
     }
 
-    public function setOriginalUnitPrice(?int $originalUnitPrice): void
+    public function setOriginalUnitPrice(?float $originalUnitPrice): void
     {
         $this->originalUnitPrice = $originalUnitPrice;
     }
 
-    public function getTotal(): int
+    public function getTotal(): float
     {
         return $this->total;
     }
@@ -144,10 +146,10 @@ class OrderItem implements OrderItemInterface
 
     public function recalculateUnitsTotal(): void
     {
-        $this->unitsTotal = 0;
+        $this->unitsTotal = (int) round($this->getUnitPrice() * count($this->units));
 
         foreach ($this->units as $unit) {
-            $this->unitsTotal += $unit->getTotal();
+            $this->unitsTotal += $unit->getAdjustmentsTotal();
         }
 
         $this->recalculateTotal();
@@ -251,13 +253,13 @@ class OrderItem implements OrderItemInterface
         return $this->adjustments->contains($adjustment);
     }
 
-    public function getAdjustmentsTotal(?string $type = null): int
+    public function getAdjustmentsTotal(?string $type = null): float
     {
         if (null === $type) {
             return $this->adjustmentsTotal;
         }
 
-        $total = 0;
+        $total = 0.0;
         foreach ($this->getAdjustments($type) as $adjustment) {
             if (!$adjustment->isNeutral()) {
                 $total += $adjustment->getAmount();
@@ -267,9 +269,9 @@ class OrderItem implements OrderItemInterface
         return $total;
     }
 
-    public function getAdjustmentsTotalRecursively(?string $type = null): int
+    public function getAdjustmentsTotalRecursively(?string $type = null): float
     {
-        $total = 0;
+        $total = 0.0;
 
         foreach ($this->getAdjustmentsRecursively($type) as $adjustment) {
             if (!$adjustment->isNeutral()) {

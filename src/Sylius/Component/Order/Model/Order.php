@@ -17,6 +17,8 @@ use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Sylius\Component\Resource\Model\TimestampableTrait;
 
+use function round;
+
 class Order implements OrderInterface
 {
     use TimestampableTrait;
@@ -139,7 +141,7 @@ class Order implements OrderInterface
             return;
         }
 
-        $this->itemsTotal += $item->getTotal();
+        $this->itemsTotal += (int) round($item->getTotal());
         $this->items->add($item);
         $item->setOrder($this);
 
@@ -150,7 +152,7 @@ class Order implements OrderInterface
     {
         if ($this->hasItem($item)) {
             $this->items->removeElement($item);
-            $this->itemsTotal -= $item->getTotal();
+            $this->itemsTotal -= (int) round($item->getTotal());
             $this->recalculateTotal();
             $item->setOrder(null);
         }
@@ -168,10 +170,12 @@ class Order implements OrderInterface
 
     public function recalculateItemsTotal(): void
     {
-        $this->itemsTotal = 0;
+        $itemsTotal = 0;
         foreach ($this->items as $item) {
-            $this->itemsTotal += $item->getTotal();
+            $itemsTotal += $item->getTotal();
         }
+
+        $this->itemsTotal = (int) round($itemsTotal);
 
         $this->recalculateTotal();
     }
@@ -253,13 +257,13 @@ class Order implements OrderInterface
         return $this->adjustments->contains($adjustment);
     }
 
-    public function getAdjustmentsTotal(?string $type = null): int
+    public function getAdjustmentsTotal(?string $type = null): float
     {
         if (null === $type) {
-            return $this->adjustmentsTotal;
+            return (float) $this->adjustmentsTotal;
         }
 
-        $total = 0;
+        $total = 0.0;
         foreach ($this->getAdjustments($type) as $adjustment) {
             if (!$adjustment->isNeutral()) {
                 $total += $adjustment->getAmount();
@@ -269,9 +273,9 @@ class Order implements OrderInterface
         return $total;
     }
 
-    public function getAdjustmentsTotalRecursively(?string $type = null): int
+    public function getAdjustmentsTotalRecursively(?string $type = null): float
     {
-        $total = 0;
+        $total = 0.0;
         foreach ($this->getAdjustmentsRecursively($type) as $adjustment) {
             if (!$adjustment->isNeutral()) {
                 $total += $adjustment->getAmount();
@@ -308,7 +312,8 @@ class Order implements OrderInterface
 
         foreach ($this->adjustments as $adjustment) {
             if (!$adjustment->isNeutral()) {
-                $this->adjustmentsTotal += $adjustment->getAmount();
+                // Adjustment will only be float in OrderItemUnit
+                $this->adjustmentsTotal += (int) round($adjustment->getAmount());
             }
         }
 
@@ -335,7 +340,8 @@ class Order implements OrderInterface
     protected function addToAdjustmentsTotal(AdjustmentInterface $adjustment): void
     {
         if (!$adjustment->isNeutral()) {
-            $this->adjustmentsTotal += $adjustment->getAmount();
+            // Adjustment will only be float in OrderItemUnit
+            $this->adjustmentsTotal += (int) round($adjustment->getAmount());
             $this->recalculateTotal();
         }
     }
@@ -343,7 +349,8 @@ class Order implements OrderInterface
     protected function subtractFromAdjustmentsTotal(AdjustmentInterface $adjustment): void
     {
         if (!$adjustment->isNeutral()) {
-            $this->adjustmentsTotal -= $adjustment->getAmount();
+            // Adjustment will only be float in OrderItemUnit
+            $this->adjustmentsTotal -= (int) round($adjustment->getAmount());
             $this->recalculateTotal();
         }
     }

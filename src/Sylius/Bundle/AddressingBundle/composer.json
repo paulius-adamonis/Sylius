@@ -55,10 +55,19 @@
     },
     "extra": {
         "branch-alias": {
+<<<<<<< HEAD
             "dev-master": "1.12-dev"
         },
         "symfony": {
             "require": "^5.4"
+=======
+            "dev-master": "1.9-dev"
+        },
+        "symfony": {
+            "endpoint": [
+                "https://raw.githubusercontent.com/symfony/recipes/c8d90298241f176a261dadc4814d7058415a4c1f/index.json"
+            ]
+>>>>>>> origin/1.11.15-float-order-item-unit-price
         }
     },
     "autoload": {

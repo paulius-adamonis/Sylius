@@ -26,6 +26,8 @@ use Sylius\Component\Taxation\Calculator\CalculatorInterface;
 use Sylius\Component\Taxation\Resolver\TaxRateResolverInterface;
 use Webmozart\Assert\Assert;
 
+use function round;
+
 class OrderItemsTaxesApplicator implements OrderTaxesApplicatorInterface
 {
     public function __construct(
@@ -87,13 +89,25 @@ class OrderItemsTaxesApplicator implements OrderTaxesApplicatorInterface
                 continue;
             }
 
+<<<<<<< HEAD
             $totalTaxAmount = $this->calculator->calculate($item->getTotal(), $taxRate);
 
             $this->distributeTaxesToUnits($totalTaxAmount, $item->getQuantity(), $item, $taxRate);
+=======
+            $totalTaxAmount = round($this->calculator->calculate($item->getTotal(), $taxRate));
+            $splitTaxes = $totalTaxAmount / $quantity;
+            if (0.0 === $splitTaxes) {
+                continue;
+            }
+
+            foreach ($item->getUnits() as $unit) {
+                $this->addAdjustment($unit, $splitTaxes, $taxRate);
+            }
+>>>>>>> origin/1.11.15-float-order-item-unit-price
         }
     }
 
-    private function addAdjustment(OrderItemUnitInterface $unit, int $taxAmount, TaxRateInterface $taxRate): void
+    private function addAdjustment(OrderItemUnitInterface $unit, float $taxAmount, TaxRateInterface $taxRate): void
     {
         $unitTaxAdjustment = $this->adjustmentFactory->createWithData(
             AdjustmentInterface::TAX_ADJUSTMENT,

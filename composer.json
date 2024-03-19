@@ -1,7 +1,11 @@
 {
     "name": "sylius/sylius",
     "type": "library",
+<<<<<<< HEAD
     "version": "v1.12.13",
+=======
+    "version": "v1.11.15",
+>>>>>>> origin/1.11.15-float-order-item-unit-price
     "description": "E-Commerce platform for PHP, based on Symfony framework.",
     "homepage": "https://sylius.com",
     "license": "MIT",
@@ -44,8 +48,12 @@
         "doctrine/persistence": "^2.3 || ^3.0",
         "egulias/email-validator": "^3.1",
         "enshrined/svg-sanitize": "^0.15.4 || ^0.16",
+<<<<<<< HEAD
         "fakerphp/faker": "^1.10",
         "friendsofphp/proxy-manager-lts": "^1.0.7",
+=======
+        "fakerphp/faker": "^1.9",
+>>>>>>> origin/1.11.15-float-order-item-unit-price
         "friendsofsymfony/rest-bundle": "^3.0",
         "gedmo/doctrine-extensions": "^3.2",
         "guzzlehttp/guzzle": "^6.5",
@@ -255,7 +263,13 @@
     "extra": {
         "symfony": {
             "allow-contrib": false,
+<<<<<<< HEAD
             "require": "5.4.*"
+=======
+            "endpoint": [
+                "https://raw.githubusercontent.com/symfony/recipes/c8d90298241f176a261dadc4814d7058415a4c1f/index.json"
+            ]
+>>>>>>> origin/1.11.15-float-order-item-unit-price
         }
     },
     "autoload": {

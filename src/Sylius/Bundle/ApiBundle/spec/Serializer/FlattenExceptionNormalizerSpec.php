@@ -58,7 +58,11 @@ final class FlattenExceptionNormalizerSpec extends ObjectBehavior
 
         $requestStack->getMainRequest()->willReturn($request);
 
+<<<<<<< HEAD
         $normalizer->supportsNormalization('data', 'format', ['context'])->shouldBeCalled()->willReturn(true);
+=======
+        $normalizer->supportsNormalization('data', 'format', ['context'])->willReturn(true)->shouldBeCalled();
+>>>>>>> origin/1.11.15-float-order-item-unit-price
 
         $this->supportsNormalization('data', 'format', ['context'])->shouldReturn(true);
     }

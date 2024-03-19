@@ -28,9 +28,14 @@
     "require": {
         "php": "^8.0",
         "enshrined/svg-sanitize": "^0.15.4 || ^0.16",
+<<<<<<< HEAD
         "knplabs/gaufrette": "^0.10 || ^0.11",
         "league/flysystem": "^2.4",
         "payum/payum": "^1.7.2",
+=======
+        "knplabs/gaufrette": "^0.8 || ^0.9 || ^0.10 || ^0.11",
+        "payum/payum": "^1.6",
+>>>>>>> origin/1.11.15-float-order-item-unit-price
         "php-http/guzzle6-adapter": "^2.0",
         "sylius/addressing": "^1.12",
         "sylius/attribute": "^1.12",

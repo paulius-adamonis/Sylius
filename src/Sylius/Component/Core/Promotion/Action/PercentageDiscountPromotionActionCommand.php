@@ -22,6 +22,9 @@ use Sylius\Component\Promotion\Model\PromotionInterface;
 use Sylius\Component\Promotion\Model\PromotionSubjectInterface;
 use Webmozart\Assert\Assert;
 
+use function ceil;
+use function round;
+
 final class PercentageDiscountPromotionActionCommand extends DiscountPromotionActionCommand implements PromotionActionCommandInterface
 {
     public const TYPE = 'order_percentage_discount';
@@ -61,7 +64,7 @@ final class PercentageDiscountPromotionActionCommand extends DiscountPromotionAc
             $itemsTotal = [];
             foreach ($subject->getItems() as $orderItem) {
                 if ($promotion->getAppliesToDiscounted()) {
-                    $itemsTotal[] = $orderItem->getTotal();
+                    $itemsTotal[] = (int) round($orderItem->getTotal());
 
                     continue;
                 }
@@ -73,7 +76,7 @@ final class PercentageDiscountPromotionActionCommand extends DiscountPromotionAc
                     continue;
                 }
 
-                $itemsTotal[] = $orderItem->getTotal();
+                $itemsTotal[] = (int) round($orderItem->getTotal());
             }
 
             $splitPromotion = $this->distributor->distribute($itemsTotal, $promotionAmount);
@@ -93,7 +96,7 @@ final class PercentageDiscountPromotionActionCommand extends DiscountPromotionAc
 
     private function calculateAdjustmentAmount(int $promotionSubjectTotal, float $percentage): int
     {
-        return -1 * (int) round($promotionSubjectTotal * $percentage);
+        return -1 * ($promotionSubjectTotal - (int) ceil($promotionSubjectTotal * (1 - $percentage)));
     }
 
     private function getSubjectTotal(OrderInterface $order, PromotionInterface $promotion): int

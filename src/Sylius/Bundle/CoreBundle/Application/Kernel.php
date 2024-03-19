@@ -26,7 +26,11 @@ use Symfony\Component\HttpKernel\Kernel as HttpKernel;
  */
 class Kernel extends HttpKernel
 {
+<<<<<<< HEAD
     use MicroKernelTrait;
+=======
+    public const VERSION = '1.11.15';
+>>>>>>> origin/1.11.15-float-order-item-unit-price
 
     /** @deprecated Use Sylius\Bundle\CoreBundle\SyliusCoreBundle::VERSION instead */
     public const VERSION = SyliusCoreBundle::VERSION;
@@ -40,11 +44,15 @@ class Kernel extends HttpKernel
     /** @deprecated Use Sylius\Bundle\CoreBundle\SyliusCoreBundle:MINOR_VERSION instead */
     public const MINOR_VERSION = SyliusCoreBundle::MINOR_VERSION;
 
+<<<<<<< HEAD
     /** @deprecated Use Sylius\Bundle\CoreBundle\SyliusCoreBundle:RELEASE_VERSION instead */
     public const RELEASE_VERSION = SyliusCoreBundle::RELEASE_VERSION;
 
     /** @deprecated Use Sylius\Bundle\CoreBundle\SyliusCoreBundle:EXTRA_VERSION instead */
     public const EXTRA_VERSION = SyliusCoreBundle::EXTRA_VERSION;
+=======
+    public const EXTRA_VERSION = '';
+>>>>>>> origin/1.11.15-float-order-item-unit-price
 
     public function __construct(string $environment, bool $debug)
     {

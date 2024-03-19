@@ -24,6 +24,8 @@ use Twig\TwigFunction;
     \E_USER_DEPRECATED,
 );
 
+use function round;
+
 class OrderTaxesTotalExtension extends AbstractExtension
 {
     public function getFunctions(): array
@@ -46,10 +48,12 @@ class OrderTaxesTotalExtension extends AbstractExtension
 
     private function getAmount(OrderInterface $order, bool $isNeutral): int
     {
-        return array_reduce(
-            $order->getAdjustmentsRecursively(AdjustmentInterface::TAX_ADJUSTMENT)->toArray(),
-            static fn (int $total, BaseAdjustmentInterface $adjustment) => $isNeutral === $adjustment->isNeutral() ? $total + $adjustment->getAmount() : $total,
-            0,
+        return (int) round(
+                array_reduce(
+                $order->getAdjustmentsRecursively(AdjustmentInterface::TAX_ADJUSTMENT)->toArray(),
+                static fn (float $total, BaseAdjustmentInterface $adjustment) => $isNeutral === $adjustment->isNeutral() ? $total + $adjustment->getAmount() : $total,
+                0.0,
+            )
         );
     }
 }
